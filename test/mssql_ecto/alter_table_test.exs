@@ -42,6 +42,22 @@ defmodule MssqlEcto.AlterTableTest do
            ]
   end
 
+  test "alter table remove column should NOT remove primary key constraint" do
+    alter =
+      {:alter, table(:posts), # adding primary_key: false fixes the issue
+       [
+         {:remove, :summary}
+       ]}
+
+    assert execute_ddl(alter) == [
+             """
+             ALTER TABLE "posts"
+             DROP COLUMN "summary";
+             """
+             |> remove_newlines
+           ]
+  end
+
   test "alter table with prefix" do
     alter =
       {:alter, table(:posts, prefix: :foo),

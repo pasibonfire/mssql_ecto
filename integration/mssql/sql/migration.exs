@@ -152,6 +152,9 @@ defmodule Ecto.Integration.MigrationTest do
       alter table(:drop_col_migration) do
         remove(:to_be_removed)
       end
+      alter table(:drop_col_migration) do
+        remove(:value)
+      end
     end
 
     def down do
